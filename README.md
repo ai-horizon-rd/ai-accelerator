@@ -86,6 +86,11 @@ To enable Azure AI Search, set up the following components:
 2. **Index**: Define the schema for the searchable data.
 3. **Skillset**: Enhance the data during indexing using AI-powered capabilities.
 4. **Indexer**: Automate the data ingestion process into the index.
+   To ensure the indexer functions correctly, update the `"dataSourceName"` field in the indexer configuration file to match the name of your Azure Blob Storage data source. For example:
+
+   ```json
+   "dataSourceName": "<azureblob-datasource>"
+   ```
 
 Sample JSON configuration files for these components are available in the `rag_templates` folder. Use the Azure Portal to create and configure these resources. Once configured (and after data is uploaded), run the indexer to populate the index with your data. Please be aware that these templates should be adapted depending on your content.
 
