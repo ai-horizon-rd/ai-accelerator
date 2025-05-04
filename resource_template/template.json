@@ -1,0 +1,1783 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "sites_functions_ai_accelerator_name": {
+      "defaultValue": "functions-ai-accelerator",
+      "type": "String"
+    },
+    "staticSites_swa_ai_accelerator_name": {
+      "defaultValue": "swa-ai-accelerator",
+      "type": "String"
+    },
+    "natGateways_nat_ai_accelerator_name": {
+      "defaultValue": "nat-ai-accelerator",
+      "type": "String"
+    },
+    "publicIPAddresses_nat_public_ip_name": {
+      "defaultValue": "nat-public-ip",
+      "type": "String"
+    },
+    "virtualNetworks_vnet_ai_accelerator_name": {
+      "defaultValue": "vnet-ai-accelerator",
+      "type": "String"
+    },
+    "components_functions_ai_accelerator_name": {
+      "defaultValue": "functions-ai-accelerator",
+      "type": "String"
+    },
+    "searchServices_aisearchaiaccellerator_name": {
+      "defaultValue": "aisearchaiaccellerator",
+      "type": "String"
+    },
+    "serverfarms_ASP_aiaccelerator_82c2_name": {
+      "defaultValue": "ASP-aiaccelerator-82c2",
+      "type": "String"
+    },
+    "accounts_openai_accelerator_name": {
+      "defaultValue": "account-openai-accelerator",
+      "type": "String"
+    },
+    "storageAccounts_functionsaiaccelerator_name": {
+      "defaultValue": "funcstorageaiaccelab41",
+      "type": "String"
+    },
+    "storageAccounts_ragstorageaiaccelerator_name": {
+      "defaultValue": "ragstorageaiaccelerator",
+      "type": "String"
+    },
+    "privateEndpoints_openai_priv_accelerator_name": {
+      "defaultValue": "openai-priv-accelerator",
+      "type": "String"
+    },
+    "privateEndpoints_priv_aisearch_accelerator_name": {
+      "defaultValue": "priv-aisearch-accelerator",
+      "type": "String"
+    },
+    "databaseAccounts_cosmosdb_ai_accelerator_name": {
+      "defaultValue": "cosmosdb-ai-accelerator",
+      "type": "String"
+    },
+    "privateDnsZones_privatelink_openai_azure_com_name": {
+      "defaultValue": "privatelink.openai.azure.com",
+      "type": "String"
+    },
+    "privateEndpoints_priv_cosmosdb_ai_accelerator_name": {
+      "defaultValue": "priv-cosmosdb-ai-accelerator",
+      "type": "String"
+    },
+    "privateDnsZones_privatelink_search_windows_net_name": {
+      "defaultValue": "privatelink.search.windows.net",
+      "type": "String"
+    },
+    "privateDnsZones_privatelink_documents_azure_com_name": {
+      "defaultValue": "privatelink.documents.azure.com",
+      "type": "String"
+    }
+  },
+  "variables": {},
+  "resources": [
+    {
+      "type": "Microsoft.DocumentDB/databaseAccounts",
+      "apiVersion": "2024-12-01-preview",
+      "name": "[parameters('databaseAccounts_cosmosdb_ai_accelerator_name')]",
+      "location": "West Europe",
+      "tags": {
+        "defaultExperience": "Core (SQL)",
+        "hidden-workload-type": "Development/Testing",
+        "hidden-cosmos-mmspecial": ""
+      },
+      "kind": "GlobalDocumentDB",
+      "identity": {
+        "type": "None"
+      },
+      "properties": {
+        "publicNetworkAccess": "Enabled",
+        "enableAutomaticFailover": true,
+        "enableMultipleWriteLocations": false,
+        "isVirtualNetworkFilterEnabled": false,
+        "virtualNetworkRules": [],
+        "disableKeyBasedMetadataWriteAccess": false,
+        "enableFreeTier": false,
+        "enableAnalyticalStorage": false,
+        "analyticalStorageConfiguration": {
+          "schemaType": "WellDefined"
+        },
+        "createMode": "Default",
+        "databaseAccountOfferType": "Standard",
+        "enableMaterializedViews": false,
+        "capacityMode": "Serverless",
+        "defaultIdentity": "FirstPartyIdentity",
+        "networkAclBypass": "None",
+        "disableLocalAuth": false,
+        "enablePartitionMerge": false,
+        "enablePerRegionPerPartitionAutoscale": false,
+        "enableBurstCapacity": false,
+        "enablePriorityBasedExecution": false,
+        "minimalTlsVersion": "Tls12",
+        "consistencyPolicy": {
+          "defaultConsistencyLevel": "Session",
+          "maxIntervalInSeconds": 5,
+          "maxStalenessPrefix": 100
+        },
+        "locations": [
+          {
+            "locationName": "West Europe",
+            "failoverPriority": 0,
+            "isZoneRedundant": false
+          }
+        ],
+        "cors": [],
+        "capabilities": [],
+        "ipRules": [
+          {
+            "ipAddressOrRange": "4.210.172.107"
+          },
+          {
+            "ipAddressOrRange": "13.88.56.148"
+          },
+          {
+            "ipAddressOrRange": "13.91.105.215"
+          },
+          {
+            "ipAddressOrRange": "40.91.218.243"
+          },
+          {
+            "ipAddressOrRange": "176.198.202.93"
+          }
+        ],
+        "backupPolicy": {
+          "type": "Continuous",
+          "continuousModeProperties": {
+            "tier": "Continuous7Days"
+          }
+        },
+        "networkAclBypassResourceIds": [],
+        "diagnosticLogSettings": {
+          "enableFullTextQuery": "None"
+        },
+        "capacity": {
+          "totalThroughputLimit": 4000
+        }
+      }
+    },
+
+    {
+      "type": "Microsoft.Network/privateDnsZones",
+      "apiVersion": "2024-06-01",
+      "name": "[parameters('privateDnsZones_privatelink_documents_azure_com_name')]",
+      "location": "global",
+      "properties": {}
+    },
+    {
+      "type": "Microsoft.Network/privateDnsZones",
+      "apiVersion": "2024-06-01",
+      "name": "[parameters('privateDnsZones_privatelink_openai_azure_com_name')]",
+      "location": "global",
+      "properties": {}
+    },
+    {
+      "type": "Microsoft.Network/privateDnsZones",
+      "apiVersion": "2024-06-01",
+      "name": "[parameters('privateDnsZones_privatelink_search_windows_net_name')]",
+      "location": "global",
+      "properties": {}
+    },
+    {
+      "type": "Microsoft.Search/searchServices",
+      "apiVersion": "2025-02-01-preview",
+      "name": "[parameters('searchServices_aisearchaiaccellerator_name')]",
+      "location": "West Europe",
+      "sku": {
+        "name": "basic"
+      },
+      "identity": {
+        "type": "SystemAssigned"
+      },
+      "properties": {
+        "replicaCount": 1,
+        "partitionCount": 1,
+        "endpoint": "[concat('https://', parameters('searchServices_aisearchaiaccellerator_name'), '.search.windows.net')]",
+        "hostingMode": "Default",
+        "publicNetworkAccess": "Enabled",
+        "networkRuleSet": {
+          "ipRules": [],
+          "bypass": "None"
+        },
+        "encryptionWithCmk": {
+          "enforcement": "Unspecified"
+        },
+        "disableLocalAuth": false,
+        "authOptions": {
+          "apiKeyOnly": {}
+        },
+        "disabledDataExfiltrationOptions": [],
+        "semanticSearch": "free"
+      }
+    },
+    {
+      "type": "Microsoft.Storage/storageAccounts",
+      "apiVersion": "2024-01-01",
+      "name": "[parameters('storageAccounts_functionsaiaccelerator_name')]",
+      "location": "westeurope",
+      "sku": {
+        "name": "Standard_LRS",
+        "tier": "Standard"
+      },
+      "kind": "StorageV2",
+      "properties": {
+        "defaultToOAuthAuthentication": true,
+        "publicNetworkAccess": "Enabled",
+        "allowCrossTenantReplication": false,
+        "minimumTlsVersion": "TLS1_2",
+        "allowBlobPublicAccess": false,
+        "networkAcls": {
+          "bypass": "AzureServices",
+          "virtualNetworkRules": [],
+          "ipRules": [],
+          "defaultAction": "Allow"
+        },
+        "supportsHttpsTrafficOnly": true,
+        "encryption": {
+          "services": {
+            "file": {
+              "keyType": "Account",
+              "enabled": true
+            },
+            "blob": {
+              "keyType": "Account",
+              "enabled": true
+            }
+          },
+          "keySource": "Microsoft.Storage"
+        },
+        "accessTier": "Hot"
+      }
+    },
+    {
+      "type": "Microsoft.Storage/storageAccounts",
+      "apiVersion": "2024-01-01",
+      "name": "[parameters('storageAccounts_ragstorageaiaccelerator_name')]",
+      "location": "westeurope",
+      "sku": {
+        "name": "Standard_LRS",
+        "tier": "Standard"
+      },
+      "kind": "StorageV2",
+      "properties": {
+        "dnsEndpointType": "Standard",
+        "defaultToOAuthAuthentication": false,
+        "publicNetworkAccess": "Enabled",
+        "allowCrossTenantReplication": false,
+        "minimumTlsVersion": "TLS1_2",
+        "allowBlobPublicAccess": false,
+        "allowSharedKeyAccess": true,
+        "largeFileSharesState": "Enabled",
+        "networkAcls": {
+          "bypass": "AzureServices",
+          "virtualNetworkRules": [],
+          "ipRules": [],
+          "defaultAction": "Allow"
+        },
+        "supportsHttpsTrafficOnly": true,
+        "encryption": {
+          "requireInfrastructureEncryption": false,
+          "services": {
+            "file": {
+              "keyType": "Account",
+              "enabled": true
+            },
+            "blob": {
+              "keyType": "Account",
+              "enabled": true
+            }
+          },
+          "keySource": "Microsoft.Storage"
+        },
+        "accessTier": "Hot"
+      }
+    },
+    {
+      "type": "Microsoft.Web/serverfarms",
+      "apiVersion": "2024-04-01",
+      "name": "[parameters('serverfarms_ASP_aiaccelerator_82c2_name')]",
+      "location": "West Europe",
+      "sku": {
+        "name": "EP1",
+        "tier": "ElasticPremium",
+        "size": "EP1",
+        "family": "EP",
+        "capacity": 1
+      },
+      "kind": "elastic",
+      "properties": {
+        "perSiteScaling": false,
+        "elasticScaleEnabled": true,
+        "maximumElasticWorkerCount": 20,
+        "isSpot": false,
+        "reserved": true,
+        "isXenon": false,
+        "hyperV": false,
+        "targetWorkerCount": 0,
+        "targetWorkerSizeId": 0,
+        "zoneRedundant": false
+      }
+    },
+    {
+      "type": "Microsoft.Web/staticSites",
+      "apiVersion": "2024-04-01",
+      "name": "[parameters('staticSites_swa_ai_accelerator_name')]",
+      "location": "West Europe",
+      "sku": {
+        "name": "Standard",
+        "tier": "Standard"
+      },
+      "properties": {
+        "enterpriseGradeCdnStatus": "Enabled"
+      }
+    },
+    {
+      "type": "Microsoft.CognitiveServices/accounts/defenderForAISettings",
+      "apiVersion": "2024-10-01",
+      "name": "[concat(parameters('accounts_openai_accelerator_name'), '/Default')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.CognitiveServices/accounts', parameters('accounts_openai_accelerator_name'))]"
+      ],
+      "properties": {
+        "state": "Disabled"
+      }
+    },
+    {
+      "type": "Microsoft.CognitiveServices/accounts/deployments",
+      "apiVersion": "2024-10-01",
+      "name": "[concat(parameters('accounts_openai_accelerator_name'), '/gpt-4o')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.CognitiveServices/accounts', parameters('accounts_openai_accelerator_name'))]"
+      ],
+      "sku": {
+        "name": "DataZoneStandard",
+        "capacity": 50
+      },
+      "properties": {
+        "model": {
+          "format": "OpenAI",
+          "name": "gpt-4o",
+          "version": "2024-11-20"
+        },
+        "versionUpgradeOption": "OnceNewDefaultVersionAvailable",
+        "currentCapacity": 50,
+        "raiPolicyName": "Microsoft.DefaultV2"
+      }
+    },
+    {
+      "type": "Microsoft.DocumentDB/databaseAccounts/sqlDatabases",
+      "apiVersion": "2024-12-01-preview",
+      "name": "[concat(parameters('databaseAccounts_cosmosdb_ai_accelerator_name'), '/AcceleratorDB')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.DocumentDB/databaseAccounts', parameters('databaseAccounts_cosmosdb_ai_accelerator_name'))]"
+      ],
+      "properties": {
+        "resource": {
+          "id": "AcceleratorDB"
+        }
+      }
+    },
+    {
+      "type": "Microsoft.DocumentDB/databaseAccounts/sqlRoleDefinitions",
+      "apiVersion": "2024-12-01-preview",
+      "name": "[concat(parameters('databaseAccounts_cosmosdb_ai_accelerator_name'), '/00000000-0000-0000-0000-000000000001')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.DocumentDB/databaseAccounts', parameters('databaseAccounts_cosmosdb_ai_accelerator_name'))]"
+      ],
+      "properties": {
+        "roleName": "Cosmos DB Built-in Data Reader",
+        "type": "BuiltInRole",
+        "assignableScopes": [
+          "[resourceId('Microsoft.DocumentDB/databaseAccounts', parameters('databaseAccounts_cosmosdb_ai_accelerator_name'))]"
+        ],
+        "permissions": [
+          {
+            "dataActions": [
+              "Microsoft.DocumentDB/databaseAccounts/readMetadata",
+              "Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers/executeQuery",
+              "Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers/readChangeFeed",
+              "Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers/items/read"
+            ],
+            "notDataActions": []
+          }
+        ]
+      }
+    },
+    {
+      "type": "Microsoft.DocumentDB/databaseAccounts/sqlRoleDefinitions",
+      "apiVersion": "2024-12-01-preview",
+      "name": "[concat(parameters('databaseAccounts_cosmosdb_ai_accelerator_name'), '/00000000-0000-0000-0000-000000000002')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.DocumentDB/databaseAccounts', parameters('databaseAccounts_cosmosdb_ai_accelerator_name'))]"
+      ],
+      "properties": {
+        "roleName": "Cosmos DB Built-in Data Contributor",
+        "type": "BuiltInRole",
+        "assignableScopes": [
+          "[resourceId('Microsoft.DocumentDB/databaseAccounts', parameters('databaseAccounts_cosmosdb_ai_accelerator_name'))]"
+        ],
+        "permissions": [
+          {
+            "dataActions": [
+              "Microsoft.DocumentDB/databaseAccounts/readMetadata",
+              "Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers/*",
+              "Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers/items/*"
+            ],
+            "notDataActions": []
+          }
+        ]
+      }
+    },
+    {
+      "type": "Microsoft.DocumentDB/databaseAccounts/tableRoleDefinitions",
+      "apiVersion": "2024-12-01-preview",
+      "name": "[concat(parameters('databaseAccounts_cosmosdb_ai_accelerator_name'), '/00000000-0000-0000-0000-000000000001')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.DocumentDB/databaseAccounts', parameters('databaseAccounts_cosmosdb_ai_accelerator_name'))]"
+      ],
+      "properties": {
+        "roleName": "Cosmos DB Built-in Data Reader",
+        "type": "BuiltInRole",
+        "assignableScopes": [
+          "[resourceId('Microsoft.DocumentDB/databaseAccounts', parameters('databaseAccounts_cosmosdb_ai_accelerator_name'))]"
+        ],
+        "permissions": [
+          {
+            "dataActions": [
+              "Microsoft.DocumentDB/databaseAccounts/readMetadata",
+              "Microsoft.DocumentDB/databaseAccounts/tables/containers/executeQuery",
+              "Microsoft.DocumentDB/databaseAccounts/tables/containers/readChangeFeed",
+              "Microsoft.DocumentDB/databaseAccounts/tables/containers/entities/read"
+            ],
+            "notDataActions": []
+          }
+        ]
+      }
+    },
+    {
+      "type": "Microsoft.DocumentDB/databaseAccounts/tableRoleDefinitions",
+      "apiVersion": "2024-12-01-preview",
+      "name": "[concat(parameters('databaseAccounts_cosmosdb_ai_accelerator_name'), '/00000000-0000-0000-0000-000000000002')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.DocumentDB/databaseAccounts', parameters('databaseAccounts_cosmosdb_ai_accelerator_name'))]"
+      ],
+      "properties": {
+        "roleName": "Cosmos DB Built-in Data Contributor",
+        "type": "BuiltInRole",
+        "assignableScopes": [
+          "[resourceId('Microsoft.DocumentDB/databaseAccounts', parameters('databaseAccounts_cosmosdb_ai_accelerator_name'))]"
+        ],
+        "permissions": [
+          {
+            "dataActions": [
+              "Microsoft.DocumentDB/databaseAccounts/readMetadata",
+              "Microsoft.DocumentDB/databaseAccounts/tables/*",
+              "Microsoft.DocumentDB/databaseAccounts/tables/containers/*",
+              "Microsoft.DocumentDB/databaseAccounts/tables/containers/entities/*"
+            ],
+            "notDataActions": []
+          }
+        ]
+      }
+    },
+    {
+      "type": "Microsoft.Network/natGateways",
+      "apiVersion": "2024-05-01",
+      "name": "[parameters('natGateways_nat_ai_accelerator_name')]",
+      "location": "westeurope",
+      "dependsOn": [
+        "[resourceId('Microsoft.Network/publicIPAddresses', parameters('publicIPAddresses_nat_public_ip_name'))]"
+      ],
+      "sku": {
+        "name": "Standard",
+        "tier": "Regional"
+      },
+      "properties": {
+        "idleTimeoutInMinutes": 4,
+        "publicIpAddresses": [
+          {
+            "id": "[resourceId('Microsoft.Network/publicIPAddresses', parameters('publicIPAddresses_nat_public_ip_name'))]"
+          }
+        ]
+      }
+    },
+    {
+      "type": "Microsoft.Network/privateDnsZones/A",
+      "apiVersion": "2024-06-01",
+      "name": "[concat(parameters('privateDnsZones_privatelink_search_windows_net_name'), '/aisearchaiaccellerator')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Network/privateDnsZones', parameters('privateDnsZones_privatelink_search_windows_net_name'))]"
+      ],
+      "properties": {
+        "metadata": {
+          "creator": "created by private endpoint priv-aisearch-accelerator with resource guid bb8125e2-7920-4a7a-b308-403787ea5385"
+        },
+        "ttl": 10,
+        "aRecords": [
+          {
+            "ipv4Address": "10.0.1.7"
+          }
+        ]
+      }
+    },
+    {
+      "type": "Microsoft.Network/privateDnsZones/A",
+      "apiVersion": "2024-06-01",
+      "name": "[concat(parameters('privateDnsZones_privatelink_documents_azure_com_name'), '/cosmosdb-ai-accelerator')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Network/privateDnsZones', parameters('privateDnsZones_privatelink_documents_azure_com_name'))]"
+      ],
+      "properties": {
+        "ttl": 3600,
+        "aRecords": [
+          {
+            "ipv4Address": "10.0.1.4"
+          }
+        ]
+      }
+    },
+    {
+      "type": "Microsoft.Network/privateDnsZones/A",
+      "apiVersion": "2024-06-01",
+      "name": "[concat(parameters('privateDnsZones_privatelink_documents_azure_com_name'), '/cosmosdb-ai-accelerator-westeurope')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Network/privateDnsZones', parameters('privateDnsZones_privatelink_documents_azure_com_name'))]"
+      ],
+      "properties": {
+        "ttl": 3600,
+        "aRecords": [
+          {
+            "ipv4Address": "10.0.1.5"
+          }
+        ]
+      }
+    },
+    {
+      "type": "Microsoft.Network/privateDnsZones/A",
+      "apiVersion": "2024-06-01",
+      "name": "[concat(parameters('privateDnsZones_privatelink_openai_azure_com_name'), '/openai-accelerator')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Network/privateDnsZones', parameters('privateDnsZones_privatelink_openai_azure_com_name'))]"
+      ],
+      "properties": {
+        "ttl": 3600,
+        "aRecords": [
+          {
+            "ipv4Address": "10.0.1.6"
+          }
+        ]
+      }
+    },
+    {
+      "type": "Microsoft.Network/privateDnsZones/SOA",
+      "apiVersion": "2024-06-01",
+      "name": "[concat(parameters('privateDnsZones_privatelink_documents_azure_com_name'), '/@')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Network/privateDnsZones', parameters('privateDnsZones_privatelink_documents_azure_com_name'))]"
+      ],
+      "properties": {
+        "ttl": 3600,
+        "soaRecord": {
+          "email": "azureprivatedns-host.microsoft.com",
+          "expireTime": 2419200,
+          "host": "azureprivatedns.net",
+          "minimumTtl": 10,
+          "refreshTime": 3600,
+          "retryTime": 300,
+          "serialNumber": 1
+        }
+      }
+    },
+    {
+      "type": "Microsoft.Network/privateDnsZones/SOA",
+      "apiVersion": "2024-06-01",
+      "name": "[concat(parameters('privateDnsZones_privatelink_openai_azure_com_name'), '/@')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Network/privateDnsZones', parameters('privateDnsZones_privatelink_openai_azure_com_name'))]"
+      ],
+      "properties": {
+        "ttl": 3600,
+        "soaRecord": {
+          "email": "azureprivatedns-host.microsoft.com",
+          "expireTime": 2419200,
+          "host": "azureprivatedns.net",
+          "minimumTtl": 10,
+          "refreshTime": 3600,
+          "retryTime": 300,
+          "serialNumber": 1
+        }
+      }
+    },
+    {
+      "type": "Microsoft.Network/privateDnsZones/SOA",
+      "apiVersion": "2024-06-01",
+      "name": "[concat(parameters('privateDnsZones_privatelink_search_windows_net_name'), '/@')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Network/privateDnsZones', parameters('privateDnsZones_privatelink_search_windows_net_name'))]"
+      ],
+      "properties": {
+        "ttl": 3600,
+        "soaRecord": {
+          "email": "azureprivatedns-host.microsoft.com",
+          "expireTime": 2419200,
+          "host": "azureprivatedns.net",
+          "minimumTtl": 10,
+          "refreshTime": 3600,
+          "retryTime": 300,
+          "serialNumber": 1
+        }
+      }
+    },
+    {
+      "type": "Microsoft.Network/publicIPAddresses",
+      "apiVersion": "2024-05-01",
+      "name": "[parameters('publicIPAddresses_nat_public_ip_name')]",
+      "location": "westeurope",
+      "sku": {
+        "name": "Standard",
+        "tier": "Regional"
+      },
+      "properties": {
+        "natGateway": {
+          "id": "[resourceId('Microsoft.Network/natGateways', parameters('natGateways_nat_ai_accelerator_name'))]"
+        },
+        "ipAddress": "172.201.33.230",
+        "publicIPAddressVersion": "IPv4",
+        "publicIPAllocationMethod": "Static",
+        "idleTimeoutInMinutes": 4,
+        "ipTags": [],
+        "ddosSettings": {
+          "protectionMode": "VirtualNetworkInherited"
+        }
+      }
+    },
+    {
+      "type": "Microsoft.Network/virtualNetworks",
+      "apiVersion": "2024-05-01",
+      "name": "[parameters('virtualNetworks_vnet_ai_accelerator_name')]",
+      "location": "westeurope",
+      "dependsOn": [
+        "[resourceId('Microsoft.Network/natGateways', parameters('natGateways_nat_ai_accelerator_name'))]"
+      ],
+      "properties": {
+        "addressSpace": {
+          "addressPrefixes": ["10.0.0.0/16"]
+        },
+        "encryption": {
+          "enabled": false,
+          "enforcement": "AllowUnencrypted"
+        },
+        "privateEndpointVNetPolicies": "Disabled",
+        "subnets": [
+          {
+            "name": "snet-functions-ai-accelerator",
+            "id": "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetworks_vnet_ai_accelerator_name'), 'snet-functions-ai-accelerator')]",
+            "properties": {
+              "addressPrefixes": ["10.0.1.0/24"],
+              "serviceEndpoints": [
+                {
+                  "service": "Microsoft.CognitiveServices",
+                  "locations": ["*"]
+                }
+              ],
+              "delegations": [],
+              "privateEndpointNetworkPolicies": "Disabled",
+              "privateLinkServiceNetworkPolicies": "Enabled"
+            },
+            "type": "Microsoft.Network/virtualNetworks/subnets"
+          },
+          {
+            "name": "snet2-functions-ai-accelerator",
+            "id": "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetworks_vnet_ai_accelerator_name'), 'snet2-functions-ai-accelerator')]",
+            "properties": {
+              "addressPrefix": "10.0.0.0/24",
+              "natGateway": {
+                "id": "[resourceId('Microsoft.Network/natGateways', parameters('natGateways_nat_ai_accelerator_name'))]"
+              },
+              "serviceEndpoints": [
+                {
+                  "service": "Microsoft.Storage",
+                  "locations": ["westeurope", "northeurope"]
+                },
+                {
+                  "service": "Microsoft.CognitiveServices",
+                  "locations": ["*"]
+                }
+              ],
+              "delegations": [
+                {
+                  "name": "delegation",
+                  "id": "[concat(resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetworks_vnet_ai_accelerator_name'), 'snet2-functions-ai-accelerator'), '/delegations/delegation')]",
+                  "properties": {
+                    "serviceName": "Microsoft.Web/serverfarms"
+                  },
+                  "type": "Microsoft.Network/virtualNetworks/subnets/delegations"
+                }
+              ],
+              "privateEndpointNetworkPolicies": "Disabled",
+              "privateLinkServiceNetworkPolicies": "Enabled"
+            },
+            "type": "Microsoft.Network/virtualNetworks/subnets"
+          }
+        ],
+        "virtualNetworkPeerings": [],
+        "enableDdosProtection": false
+      }
+    },
+    {
+      "type": "Microsoft.Network/virtualNetworks/subnets",
+      "apiVersion": "2024-05-01",
+      "name": "[concat(parameters('virtualNetworks_vnet_ai_accelerator_name'), '/snet-functions-ai-accelerator')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetworks_vnet_ai_accelerator_name'))]"
+      ],
+      "properties": {
+        "addressPrefixes": ["10.0.1.0/24"],
+        "serviceEndpoints": [
+          {
+            "service": "Microsoft.CognitiveServices",
+            "locations": ["*"]
+          }
+        ],
+        "delegations": [],
+        "privateEndpointNetworkPolicies": "Disabled",
+        "privateLinkServiceNetworkPolicies": "Enabled"
+      }
+    },
+    {
+      "type": "Microsoft.Storage/storageAccounts/blobServices",
+      "apiVersion": "2024-01-01",
+      "name": "[concat(parameters('storageAccounts_functionsaiaccelerator_name'), '/default')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_functionsaiaccelerator_name'))]"
+      ],
+      "sku": {
+        "name": "Standard_LRS",
+        "tier": "Standard"
+      },
+      "properties": {
+        "cors": {
+          "corsRules": []
+        },
+        "deleteRetentionPolicy": {
+          "allowPermanentDelete": false,
+          "enabled": false
+        }
+      }
+    },
+    {
+      "type": "Microsoft.Storage/storageAccounts/blobServices",
+      "apiVersion": "2024-01-01",
+      "name": "[concat(parameters('storageAccounts_ragstorageaiaccelerator_name'), '/default')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_ragstorageaiaccelerator_name'))]"
+      ],
+      "sku": {
+        "name": "Standard_LRS",
+        "tier": "Standard"
+      },
+      "properties": {
+        "cors": {
+          "corsRules": []
+        },
+        "deleteRetentionPolicy": {
+          "allowPermanentDelete": false,
+          "enabled": true,
+          "days": 7
+        },
+        "containerDeleteRetentionPolicy": {
+          "enabled": true,
+          "days": 7
+        }
+      }
+    },
+    {
+      "type": "Microsoft.Storage/storageAccounts/fileServices",
+      "apiVersion": "2024-01-01",
+      "name": "[concat(parameters('storageAccounts_functionsaiaccelerator_name'), '/default')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_functionsaiaccelerator_name'))]"
+      ],
+      "sku": {
+        "name": "Standard_LRS",
+        "tier": "Standard"
+      },
+      "properties": {
+        "protocolSettings": {
+          "smb": {}
+        },
+        "cors": {
+          "corsRules": []
+        },
+        "shareDeleteRetentionPolicy": {
+          "enabled": true,
+          "days": 7
+        }
+      }
+    },
+    {
+      "type": "Microsoft.Storage/storageAccounts/fileServices",
+      "apiVersion": "2024-01-01",
+      "name": "[concat(parameters('storageAccounts_ragstorageaiaccelerator_name'), '/default')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_ragstorageaiaccelerator_name'))]"
+      ],
+      "sku": {
+        "name": "Standard_LRS",
+        "tier": "Standard"
+      },
+      "properties": {
+        "protocolSettings": {
+          "smb": {}
+        },
+        "cors": {
+          "corsRules": []
+        },
+        "shareDeleteRetentionPolicy": {
+          "enabled": true,
+          "days": 7
+        }
+      }
+    },
+    {
+      "type": "Microsoft.Web/sites/basicPublishingCredentialsPolicies",
+      "apiVersion": "2024-04-01",
+      "name": "[concat(parameters('sites_functions_ai_accelerator_name'), '/ftp')]",
+      "location": "West Europe",
+      "dependsOn": [
+        "[resourceId('Microsoft.Web/sites', parameters('sites_functions_ai_accelerator_name'))]"
+      ],
+      "properties": {
+        "allow": false
+      }
+    },
+    {
+      "type": "Microsoft.Web/sites/basicPublishingCredentialsPolicies",
+      "apiVersion": "2024-04-01",
+      "name": "[concat(parameters('sites_functions_ai_accelerator_name'), '/scm')]",
+      "location": "West Europe",
+      "dependsOn": [
+        "[resourceId('Microsoft.Web/sites', parameters('sites_functions_ai_accelerator_name'))]"
+      ],
+      "properties": {
+        "allow": false
+      }
+    },
+    {
+      "type": "Microsoft.Web/sites/config",
+      "apiVersion": "2024-04-01",
+      "name": "[concat(parameters('sites_functions_ai_accelerator_name'), '/web')]",
+      "location": "West Europe",
+      "dependsOn": [
+        "[resourceId('Microsoft.Web/sites', parameters('sites_functions_ai_accelerator_name'))]"
+      ],
+      "properties": {
+        "numberOfWorkers": 1,
+        "defaultDocuments": [
+          "Default.htm",
+          "Default.html",
+          "Default.asp",
+          "index.htm",
+          "index.html",
+          "iisstart.htm",
+          "default.aspx",
+          "index.php"
+        ],
+        "netFrameworkVersion": "v4.0",
+        "linuxFxVersion": "Node|20",
+        "requestTracingEnabled": false,
+        "remoteDebuggingEnabled": false,
+        "httpLoggingEnabled": false,
+        "acrUseManagedIdentityCreds": false,
+        "logsDirectorySizeLimit": 35,
+        "detailedErrorLoggingEnabled": false,
+        "publishingUsername": "REDACTED",
+        "scmType": "None",
+        "use32BitWorkerProcess": false,
+        "webSocketsEnabled": false,
+        "alwaysOn": false,
+        "managedPipelineMode": "Integrated",
+        "virtualApplications": [
+          {
+            "virtualPath": "/",
+            "physicalPath": "site\\wwwroot",
+            "preloadEnabled": false
+          }
+        ],
+        "loadBalancing": "LeastRequests",
+        "experiments": {
+          "rampUpRules": []
+        },
+        "autoHealEnabled": false,
+        "vnetName": "6c5abfcb-e361-4e44-9bdb-4ebb5f3f63d0_snet2-functions-ai-accelerator",
+        "vnetRouteAllEnabled": true,
+        "vnetPrivatePortsCount": 0,
+        "publicNetworkAccess": "Enabled",
+        "cors": {
+          "allowedOrigins": ["https://portal.azure.com"],
+          "supportCredentials": false
+        },
+        "localMySqlEnabled": false,
+        "managedServiceIdentityId": 15006,
+        "ipSecurityRestrictions": [
+          {
+            "ipAddress": "Any",
+            "action": "Allow",
+            "priority": 2147483647,
+            "name": "Allow all",
+            "description": "Allow all access"
+          }
+        ],
+        "scmIpSecurityRestrictions": [
+          {
+            "ipAddress": "Any",
+            "action": "Allow",
+            "priority": 2147483647,
+            "name": "Allow all",
+            "description": "Allow all access"
+          }
+        ],
+        "scmIpSecurityRestrictionsUseMain": false,
+        "http20Enabled": false,
+        "minTlsVersion": "1.2",
+        "scmMinTlsVersion": "1.2",
+        "ftpsState": "FtpsOnly",
+        "preWarmedInstanceCount": 1,
+        "functionAppScaleLimit": 0,
+        "functionsRuntimeScaleMonitoringEnabled": false,
+        "minimumElasticInstanceCount": 1,
+        "azureStorageAccounts": {}
+      }
+    },
+    {
+      "type": "Microsoft.Web/sites/functions",
+      "apiVersion": "2024-04-01",
+      "name": "[concat(parameters('sites_functions_ai_accelerator_name'), '/createItem')]",
+      "location": "West Europe",
+      "dependsOn": [
+        "[resourceId('Microsoft.Web/sites', parameters('sites_functions_ai_accelerator_name'))]"
+      ],
+      "properties": {
+        "script_href": "https://functions-ai-accelerator.azurewebsites.net/admin/vfs/home/site/wwwroot/createItem.js",
+        "test_data_href": "https://functions-ai-accelerator.azurewebsites.net/admin/vfs/home/data/Functions/sampledata/createItem.dat",
+        "href": "https://functions-ai-accelerator.azurewebsites.net/admin/functions/createItem",
+        "config": {
+          "name": "createItem",
+          "entryPoint": "",
+          "scriptFile": "createItem.js",
+          "language": "node",
+          "functionDirectory": "/home/site/wwwroot/src/functions",
+          "bindings": [
+            {
+              "methods": ["POST"],
+              "authLevel": "anonymous",
+              "type": "httpTrigger",
+              "name": "httpTrigger13c23c2cf5",
+              "direction": "in"
+            },
+            {
+              "type": "http",
+              "name": "$return",
+              "direction": "out"
+            }
+          ]
+        },
+        "invoke_url_template": "https://functions-ai-accelerator.azurewebsites.net/api/createitem",
+        "language": "node",
+        "isDisabled": false
+      }
+    },
+    {
+      "type": "Microsoft.Web/sites/functions",
+      "apiVersion": "2024-04-01",
+      "name": "[concat(parameters('sites_functions_ai_accelerator_name'), '/deleteItem')]",
+      "location": "West Europe",
+      "dependsOn": [
+        "[resourceId('Microsoft.Web/sites', parameters('sites_functions_ai_accelerator_name'))]"
+      ],
+      "properties": {
+        "script_href": "https://functions-ai-accelerator.azurewebsites.net/admin/vfs/home/site/wwwroot/deleteItem.js",
+        "test_data_href": "https://functions-ai-accelerator.azurewebsites.net/admin/vfs/home/data/Functions/sampledata/deleteItem.dat",
+        "href": "https://functions-ai-accelerator.azurewebsites.net/admin/functions/deleteItem",
+        "config": {
+          "name": "deleteItem",
+          "entryPoint": "",
+          "scriptFile": "deleteItem.js",
+          "language": "node",
+          "functionDirectory": "/home/site/wwwroot/src/functions",
+          "bindings": [
+            {
+              "methods": ["POST"],
+              "authLevel": "anonymous",
+              "type": "httpTrigger",
+              "name": "httpTrigger13c23c2cf5",
+              "direction": "in"
+            },
+            {
+              "type": "http",
+              "name": "$return",
+              "direction": "out"
+            }
+          ]
+        },
+        "invoke_url_template": "https://functions-ai-accelerator.azurewebsites.net/api/deleteitem",
+        "language": "node",
+        "isDisabled": false
+      }
+    },
+    {
+      "type": "Microsoft.Web/sites/functions",
+      "apiVersion": "2024-04-01",
+      "name": "[concat(parameters('sites_functions_ai_accelerator_name'), '/openai')]",
+      "location": "West Europe",
+      "dependsOn": [
+        "[resourceId('Microsoft.Web/sites', parameters('sites_functions_ai_accelerator_name'))]"
+      ],
+      "properties": {
+        "script_href": "https://functions-ai-accelerator.azurewebsites.net/admin/vfs/home/site/wwwroot/openai.js",
+        "test_data_href": "https://functions-ai-accelerator.azurewebsites.net/admin/vfs/home/data/Functions/sampledata/openai.dat",
+        "href": "https://functions-ai-accelerator.azurewebsites.net/admin/functions/openai",
+        "config": {
+          "name": "openai",
+          "entryPoint": "",
+          "scriptFile": "openai.js",
+          "language": "node",
+          "functionDirectory": "/home/site/wwwroot/src/functions",
+          "bindings": [
+            {
+              "methods": ["POST"],
+              "authLevel": "anonymous",
+              "type": "httpTrigger",
+              "name": "httpTrigger13c23c2cf5",
+              "direction": "in"
+            },
+            {
+              "type": "http",
+              "name": "$return",
+              "direction": "out"
+            }
+          ]
+        },
+        "invoke_url_template": "https://functions-ai-accelerator.azurewebsites.net/api/openai",
+        "language": "node",
+        "isDisabled": false
+      }
+    },
+    {
+      "type": "Microsoft.Web/sites/functions",
+      "apiVersion": "2024-04-01",
+      "name": "[concat(parameters('sites_functions_ai_accelerator_name'), '/readItems')]",
+      "location": "West Europe",
+      "dependsOn": [
+        "[resourceId('Microsoft.Web/sites', parameters('sites_functions_ai_accelerator_name'))]"
+      ],
+      "properties": {
+        "script_href": "https://functions-ai-accelerator.azurewebsites.net/admin/vfs/home/site/wwwroot/readItems.js",
+        "test_data_href": "https://functions-ai-accelerator.azurewebsites.net/admin/vfs/home/data/Functions/sampledata/readItems.dat",
+        "href": "https://functions-ai-accelerator.azurewebsites.net/admin/functions/readItems",
+        "config": {
+          "name": "readItems",
+          "entryPoint": "",
+          "scriptFile": "readItems.js",
+          "language": "node",
+          "functionDirectory": "/home/site/wwwroot/src/functions",
+          "bindings": [
+            {
+              "methods": ["POST"],
+              "authLevel": "anonymous",
+              "type": "httpTrigger",
+              "name": "httpTrigger13c23c2cf5",
+              "direction": "in"
+            },
+            {
+              "type": "http",
+              "name": "$return",
+              "direction": "out"
+            }
+          ]
+        },
+        "invoke_url_template": "https://functions-ai-accelerator.azurewebsites.net/api/readitems",
+        "language": "node",
+        "isDisabled": false
+      }
+    },
+    {
+      "type": "Microsoft.Web/sites/functions",
+      "apiVersion": "2024-04-01",
+      "name": "[concat(parameters('sites_functions_ai_accelerator_name'), '/updateItem')]",
+      "location": "West Europe",
+      "dependsOn": [
+        "[resourceId('Microsoft.Web/sites', parameters('sites_functions_ai_accelerator_name'))]"
+      ],
+      "properties": {
+        "script_href": "https://functions-ai-accelerator.azurewebsites.net/admin/vfs/home/site/wwwroot/updateItem.js",
+        "test_data_href": "https://functions-ai-accelerator.azurewebsites.net/admin/vfs/home/data/Functions/sampledata/updateItem.dat",
+        "href": "https://functions-ai-accelerator.azurewebsites.net/admin/functions/updateItem",
+        "config": {
+          "name": "updateItem",
+          "entryPoint": "",
+          "scriptFile": "updateItem.js",
+          "language": "node",
+          "functionDirectory": "/home/site/wwwroot/src/functions",
+          "bindings": [
+            {
+              "methods": ["POST"],
+              "authLevel": "anonymous",
+              "type": "httpTrigger",
+              "name": "httpTrigger13c23c2cf5",
+              "direction": "in"
+            },
+            {
+              "type": "http",
+              "name": "$return",
+              "direction": "out"
+            }
+          ]
+        },
+        "invoke_url_template": "https://functions-ai-accelerator.azurewebsites.net/api/updateitem",
+        "language": "node",
+        "isDisabled": false
+      }
+    },
+    {
+      "type": "Microsoft.Web/sites/hostNameBindings",
+      "apiVersion": "2024-04-01",
+      "name": "[concat(parameters('sites_functions_ai_accelerator_name'), '/', parameters('sites_functions_ai_accelerator_name'), '.azurewebsites.net')]",
+      "location": "West Europe",
+      "dependsOn": [
+        "[resourceId('Microsoft.Web/sites', parameters('sites_functions_ai_accelerator_name'))]"
+      ],
+      "properties": {
+        "siteName": "functions-ai-accelerator",
+        "hostNameType": "Verified"
+      }
+    },
+    {
+      "type": "Microsoft.Web/staticSites/basicAuth",
+      "apiVersion": "2024-04-01",
+      "name": "[concat(parameters('staticSites_swa_ai_accelerator_name'), '/default')]",
+      "location": "West Europe",
+      "dependsOn": [
+        "[resourceId('Microsoft.Web/staticSites', parameters('staticSites_swa_ai_accelerator_name'))]"
+      ],
+      "properties": {
+        "applicableEnvironmentsMode": "SpecifiedEnvironments"
+      }
+    },
+    {
+      "type": "Microsoft.CognitiveServices/accounts",
+      "apiVersion": "2024-10-01",
+      "name": "[parameters('accounts_openai_accelerator_name')]",
+      "location": "westeurope",
+      "dependsOn": [
+        "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetworks_vnet_ai_accelerator_name'), 'snet-functions-ai-accelerator')]",
+        "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetworks_vnet_ai_accelerator_name'), 'snet2-functions-ai-accelerator')]"
+      ],
+      "sku": {
+        "name": "S0"
+      },
+      "kind": "OpenAI",
+      "properties": {
+        "apiProperties": {},
+        "customSubDomainName": "[parameters('accounts_openai_accelerator_name')]",
+        "networkAcls": {
+          "defaultAction": "Deny",
+          "virtualNetworkRules": [
+            {
+              "id": "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetworks_vnet_ai_accelerator_name'), 'snet-functions-ai-accelerator')]",
+              "ignoreMissingVnetServiceEndpoint": false
+            },
+            {
+              "id": "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetworks_vnet_ai_accelerator_name'), 'snet2-functions-ai-accelerator')]",
+              "ignoreMissingVnetServiceEndpoint": false
+            }
+          ],
+          "ipRules": [
+            {
+              "value": "40.68.200.255"
+            },
+            {
+              "value": "104.45.21.19"
+            },
+            {
+              "value": "137.117.210.41"
+            },
+            {
+              "value": "51.137.53.49"
+            },
+            {
+              "value": "104.214.230.13"
+            },
+            {
+              "value": "23.97.173.214"
+            },
+            {
+              "value": "23.97.217.1"
+            },
+            {
+              "value": "40.115.38.157"
+            },
+            {
+              "value": "168.63.19.216"
+            },
+            {
+              "value": "52.236.152.120"
+            },
+            {
+              "value": "52.236.152.122"
+            },
+            {
+              "value": "52.236.152.141"
+            },
+            {
+              "value": "52.236.152.193"
+            },
+            {
+              "value": "52.236.153.2"
+            },
+            {
+              "value": "52.236.153.31"
+            },
+            {
+              "value": "20.23.179.164"
+            },
+            {
+              "value": "20.23.179.241"
+            },
+            {
+              "value": "20.23.179.249"
+            },
+            {
+              "value": "20.23.180.36"
+            },
+            {
+              "value": "20.23.180.124"
+            },
+            {
+              "value": "20.23.180.144"
+            },
+            {
+              "value": "13.69.68.15"
+            }
+          ]
+        },
+        "publicNetworkAccess": "Enabled"
+      }
+    },
+    {
+      "type": "Microsoft.DocumentDB/databaseAccounts/privateEndpointConnections",
+      "apiVersion": "2024-12-01-preview",
+      "name": "[concat(parameters('databaseAccounts_cosmosdb_ai_accelerator_name'), '/priv-', parameters('databaseAccounts_cosmosdb_ai_accelerator_name'))]",
+      "dependsOn": [
+        "[resourceId('Microsoft.DocumentDB/databaseAccounts', parameters('databaseAccounts_cosmosdb_ai_accelerator_name'))]",
+        "[resourceId('Microsoft.Network/privateEndpoints', parameters('privateEndpoints_priv_cosmosdb_ai_accelerator_name'))]"
+      ],
+      "properties": {
+        "provisioningState": "Succeeded",
+        "groupId": "Sql",
+        "privateEndpoint": {
+          "id": "[resourceId('Microsoft.Network/privateEndpoints', parameters('privateEndpoints_priv_cosmosdb_ai_accelerator_name'))]"
+        },
+        "privateLinkServiceConnectionState": {
+          "status": "Approved"
+        }
+      }
+    },
+    {
+      "type": "Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers",
+      "apiVersion": "2024-12-01-preview",
+      "name": "[concat(parameters('databaseAccounts_cosmosdb_ai_accelerator_name'), '/AcceleratorDB/Conversations')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.DocumentDB/databaseAccounts/sqlDatabases', parameters('databaseAccounts_cosmosdb_ai_accelerator_name'), 'AcceleratorDB')]",
+        "[resourceId('Microsoft.DocumentDB/databaseAccounts', parameters('databaseAccounts_cosmosdb_ai_accelerator_name'))]"
+      ],
+      "properties": {
+        "resource": {
+          "id": "Conversations",
+          "indexingPolicy": {
+            "indexingMode": "consistent",
+            "automatic": true,
+            "includedPaths": [
+              {
+                "path": "/*"
+              }
+            ],
+            "excludedPaths": [
+              {
+                "path": "/\"_etag\"/?"
+              }
+            ]
+          },
+          "partitionKey": {
+            "paths": ["/id"],
+            "kind": "Hash",
+            "version": 2
+          },
+          "uniqueKeyPolicy": {
+            "uniqueKeys": []
+          },
+          "conflictResolutionPolicy": {
+            "mode": "LastWriterWins",
+            "conflictResolutionPath": "/_ts"
+          },
+          "computedProperties": []
+        }
+      }
+    },
+    {
+      "type": "Microsoft.DocumentDB/databaseAccounts/sqlRoleAssignments",
+      "apiVersion": "2024-12-01-preview",
+      "name": "[concat(parameters('databaseAccounts_cosmosdb_ai_accelerator_name'), '/75e102ae-c052-4fe1-934a-689bd0583af8')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.DocumentDB/databaseAccounts', parameters('databaseAccounts_cosmosdb_ai_accelerator_name'))]",
+        "[resourceId('Microsoft.DocumentDB/databaseAccounts/sqlRoleDefinitions', parameters('databaseAccounts_cosmosdb_ai_accelerator_name'), '00000000-0000-0000-0000-000000000002')]"
+      ],
+      "properties": {
+        "roleDefinitionId": "[resourceId('Microsoft.DocumentDB/databaseAccounts/sqlRoleDefinitions', parameters('databaseAccounts_cosmosdb_ai_accelerator_name'), '00000000-0000-0000-0000-000000000002')]",
+        "principalId": "e7908ccc-fcda-491c-afe0-e2ecd7e7a012",
+        "scope": "[resourceId('Microsoft.DocumentDB/databaseAccounts', parameters('databaseAccounts_cosmosdb_ai_accelerator_name'))]"
+      }
+    },
+    {
+      "type": "Microsoft.DocumentDB/databaseAccounts/tableRoleAssignments",
+      "apiVersion": "2024-12-01-preview",
+      "name": "[concat(parameters('databaseAccounts_cosmosdb_ai_accelerator_name'), '/75e102ae-c052-4fe1-934a-689bd0583af8')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.DocumentDB/databaseAccounts', parameters('databaseAccounts_cosmosdb_ai_accelerator_name'))]",
+        "[resourceId('Microsoft.DocumentDB/databaseAccounts/tableRoleDefinitions', parameters('databaseAccounts_cosmosdb_ai_accelerator_name'), '00000000-0000-0000-0000-000000000002')]"
+      ],
+      "properties": {
+        "roleDefinitionId": "[resourceId('Microsoft.DocumentDB/databaseAccounts/tableRoleDefinitions', parameters('databaseAccounts_cosmosdb_ai_accelerator_name'), '00000000-0000-0000-0000-000000000002')]",
+        "principalId": "e7908ccc-fcda-491c-afe0-e2ecd7e7a012",
+        "scope": "[resourceId('Microsoft.DocumentDB/databaseAccounts', parameters('databaseAccounts_cosmosdb_ai_accelerator_name'))]"
+      }
+    },
+    {
+      "type": "Microsoft.Network/privateDnsZones/virtualNetworkLinks",
+      "apiVersion": "2024-06-01",
+      "name": "[concat(parameters('privateDnsZones_privatelink_documents_azure_com_name'), '/ij27kdd4m7tca')]",
+      "location": "global",
+      "dependsOn": [
+        "[resourceId('Microsoft.Network/privateDnsZones', parameters('privateDnsZones_privatelink_documents_azure_com_name'))]",
+        "[resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetworks_vnet_ai_accelerator_name'))]"
+      ],
+      "properties": {
+        "registrationEnabled": false,
+        "resolutionPolicy": "Default",
+        "virtualNetwork": {
+          "id": "[resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetworks_vnet_ai_accelerator_name'))]"
+        }
+      }
+    },
+    {
+      "type": "Microsoft.Network/privateDnsZones/virtualNetworkLinks",
+      "apiVersion": "2024-06-01",
+      "name": "[concat(parameters('privateDnsZones_privatelink_search_windows_net_name'), '/ij27kdd4m7tca')]",
+      "location": "global",
+      "dependsOn": [
+        "[resourceId('Microsoft.Network/privateDnsZones', parameters('privateDnsZones_privatelink_search_windows_net_name'))]",
+        "[resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetworks_vnet_ai_accelerator_name'))]"
+      ],
+      "properties": {
+        "registrationEnabled": false,
+        "resolutionPolicy": "Default",
+        "virtualNetwork": {
+          "id": "[resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetworks_vnet_ai_accelerator_name'))]"
+        }
+      }
+    },
+    {
+      "type": "Microsoft.Network/privateDnsZones/virtualNetworkLinks",
+      "apiVersion": "2024-06-01",
+      "name": "[concat(parameters('privateDnsZones_privatelink_openai_azure_com_name'), '/jubufzitfbo3u')]",
+      "location": "global",
+      "dependsOn": [
+        "[resourceId('Microsoft.Network/privateDnsZones', parameters('privateDnsZones_privatelink_openai_azure_com_name'))]",
+        "[resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetworks_vnet_ai_accelerator_name'))]"
+      ],
+      "properties": {
+        "registrationEnabled": false,
+        "resolutionPolicy": "Default",
+        "virtualNetwork": {
+          "id": "[resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetworks_vnet_ai_accelerator_name'))]"
+        }
+      }
+    },
+    {
+      "type": "Microsoft.Network/privateEndpoints",
+      "apiVersion": "2024-05-01",
+      "name": "[parameters('privateEndpoints_openai_priv_accelerator_name')]",
+      "location": "westeurope",
+      "dependsOn": [
+        "[resourceId('Microsoft.CognitiveServices/accounts', parameters('accounts_openai_accelerator_name'))]",
+        "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetworks_vnet_ai_accelerator_name'), 'snet-functions-ai-accelerator')]"
+      ],
+      "properties": {
+        "privateLinkServiceConnections": [
+          {
+            "name": "[parameters('privateEndpoints_openai_priv_accelerator_name')]",
+            "id": "[concat(resourceId('Microsoft.Network/privateEndpoints', parameters('privateEndpoints_openai_priv_accelerator_name')), concat('/privateLinkServiceConnections/', parameters('privateEndpoints_openai_priv_accelerator_name')))]",
+            "properties": {
+              "privateLinkServiceId": "[resourceId('Microsoft.CognitiveServices/accounts', parameters('accounts_openai_accelerator_name'))]",
+              "groupIds": ["account"],
+              "privateLinkServiceConnectionState": {
+                "status": "Approved",
+                "description": "Approved",
+                "actionsRequired": "None"
+              }
+            }
+          }
+        ],
+        "manualPrivateLinkServiceConnections": [],
+        "customNetworkInterfaceName": "[concat(parameters('privateEndpoints_openai_priv_accelerator_name'), '-nic')]",
+        "subnet": {
+          "id": "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetworks_vnet_ai_accelerator_name'), 'snet-functions-ai-accelerator')]"
+        },
+        "ipConfigurations": [],
+        "customDnsConfigs": []
+      }
+    },
+    {
+      "type": "Microsoft.Network/privateEndpoints",
+      "apiVersion": "2024-05-01",
+      "name": "[parameters('privateEndpoints_priv_aisearch_accelerator_name')]",
+      "location": "westeurope",
+      "dependsOn": [
+        "[resourceId('Microsoft.Search/searchServices', parameters('searchServices_aisearchaiaccellerator_name'))]",
+        "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetworks_vnet_ai_accelerator_name'), 'snet-functions-ai-accelerator')]"
+      ],
+      "properties": {
+        "privateLinkServiceConnections": [
+          {
+            "name": "[parameters('privateEndpoints_priv_aisearch_accelerator_name')]",
+            "id": "[concat(resourceId('Microsoft.Network/privateEndpoints', parameters('privateEndpoints_priv_aisearch_accelerator_name')), concat('/privateLinkServiceConnections/', parameters('privateEndpoints_priv_aisearch_accelerator_name')))]",
+            "properties": {
+              "privateLinkServiceId": "[resourceId('Microsoft.Search/searchServices', parameters('searchServices_aisearchaiaccellerator_name'))]",
+              "groupIds": ["searchService"],
+              "privateLinkServiceConnectionState": {
+                "status": "Approved",
+                "description": "Auto-approved",
+                "actionsRequired": "None"
+              }
+            }
+          }
+        ],
+        "manualPrivateLinkServiceConnections": [],
+        "customNetworkInterfaceName": "[concat(parameters('privateEndpoints_priv_aisearch_accelerator_name'), '-nic')]",
+        "subnet": {
+          "id": "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetworks_vnet_ai_accelerator_name'), 'snet-functions-ai-accelerator')]"
+        },
+        "ipConfigurations": [],
+        "customDnsConfigs": []
+      }
+    },
+    {
+      "type": "Microsoft.Network/privateEndpoints",
+      "apiVersion": "2024-05-01",
+      "name": "[parameters('privateEndpoints_priv_cosmosdb_ai_accelerator_name')]",
+      "location": "westeurope",
+      "dependsOn": [
+        "[resourceId('Microsoft.DocumentDB/databaseAccounts', parameters('databaseAccounts_cosmosdb_ai_accelerator_name'))]",
+        "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetworks_vnet_ai_accelerator_name'), 'snet-functions-ai-accelerator')]"
+      ],
+      "properties": {
+        "privateLinkServiceConnections": [
+          {
+            "name": "[concat(parameters('privateEndpoints_priv_cosmosdb_ai_accelerator_name'), '_9abea782-19bf-4768-bab6-6095d6f38047')]",
+            "id": "[concat(resourceId('Microsoft.Network/privateEndpoints', parameters('privateEndpoints_priv_cosmosdb_ai_accelerator_name')), concat('/privateLinkServiceConnections/', parameters('privateEndpoints_priv_cosmosdb_ai_accelerator_name'), '_9abea782-19bf-4768-bab6-6095d6f38047'))]",
+            "properties": {
+              "privateLinkServiceId": "[resourceId('Microsoft.DocumentDB/databaseAccounts', parameters('databaseAccounts_cosmosdb_ai_accelerator_name'))]",
+              "groupIds": ["Sql"],
+              "privateLinkServiceConnectionState": {
+                "status": "Approved",
+                "actionsRequired": "None"
+              }
+            }
+          }
+        ],
+        "manualPrivateLinkServiceConnections": [],
+        "subnet": {
+          "id": "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetworks_vnet_ai_accelerator_name'), 'snet-functions-ai-accelerator')]"
+        },
+        "ipConfigurations": [],
+        "customDnsConfigs": [
+          {
+            "fqdn": "cosmosdb-ai-accelerator.documents.azure.com",
+            "ipAddresses": ["10.0.1.4"]
+          },
+          {
+            "fqdn": "cosmosdb-ai-accelerator-westeurope.documents.azure.com",
+            "ipAddresses": ["10.0.1.5"]
+          }
+        ]
+      }
+    },
+    {
+      "type": "Microsoft.Network/privateEndpoints/privateDnsZoneGroups",
+      "apiVersion": "2024-05-01",
+      "name": "[concat(parameters('privateEndpoints_openai_priv_accelerator_name'), '/default')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Network/privateEndpoints', parameters('privateEndpoints_openai_priv_accelerator_name'))]",
+        "[resourceId('Microsoft.Network/privateDnsZones', parameters('privateDnsZones_privatelink_openai_azure_com_name'))]"
+      ],
+      "properties": {
+        "privateDnsZoneConfigs": [
+          {
+            "name": "privatelink-cognitiveservices",
+            "properties": {
+              "privateDnsZoneId": "[resourceId('Microsoft.Network/privateDnsZones', parameters('privateDnsZones_privatelink_openai_azure_com_name'))]"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "Microsoft.Network/privateEndpoints/privateDnsZoneGroups",
+      "apiVersion": "2024-05-01",
+      "name": "[concat(parameters('privateEndpoints_priv_aisearch_accelerator_name'), '/default')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Network/privateEndpoints', parameters('privateEndpoints_priv_aisearch_accelerator_name'))]",
+        "[resourceId('Microsoft.Network/privateDnsZones', parameters('privateDnsZones_privatelink_search_windows_net_name'))]"
+      ],
+      "properties": {
+        "privateDnsZoneConfigs": [
+          {
+            "name": "privatelink-search-windows-net",
+            "properties": {
+              "privateDnsZoneId": "[resourceId('Microsoft.Network/privateDnsZones', parameters('privateDnsZones_privatelink_search_windows_net_name'))]"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "Microsoft.Network/virtualNetworks/subnets",
+      "apiVersion": "2024-05-01",
+      "name": "[concat(parameters('virtualNetworks_vnet_ai_accelerator_name'), '/snet2-functions-ai-accelerator')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetworks_vnet_ai_accelerator_name'))]",
+        "[resourceId('Microsoft.Network/natGateways', parameters('natGateways_nat_ai_accelerator_name'))]"
+      ],
+      "properties": {
+        "addressPrefix": "10.0.0.0/24",
+        "natGateway": {
+          "id": "[resourceId('Microsoft.Network/natGateways', parameters('natGateways_nat_ai_accelerator_name'))]"
+        },
+        "serviceEndpoints": [
+          {
+            "service": "Microsoft.Storage",
+            "locations": ["westeurope", "northeurope"]
+          },
+          {
+            "service": "Microsoft.CognitiveServices",
+            "locations": ["*"]
+          }
+        ],
+        "delegations": [
+          {
+            "name": "delegation",
+            "id": "[concat(resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetworks_vnet_ai_accelerator_name'), 'snet2-functions-ai-accelerator'), '/delegations/delegation')]",
+            "properties": {
+              "serviceName": "Microsoft.Web/serverfarms"
+            },
+            "type": "Microsoft.Network/virtualNetworks/subnets/delegations"
+          }
+        ],
+        "privateEndpointNetworkPolicies": "Disabled",
+        "privateLinkServiceNetworkPolicies": "Enabled"
+      }
+    },
+    {
+      "type": "Microsoft.Search/searchServices/privateEndpointConnections",
+      "apiVersion": "2025-02-01-preview",
+      "name": "[concat(parameters('searchServices_aisearchaiaccellerator_name'), '/priv-aisearch-accelerator.bb8125e2-7920-4a7a-b308-403787ea5385')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Search/searchServices', parameters('searchServices_aisearchaiaccellerator_name'))]",
+        "[resourceId('Microsoft.Network/privateEndpoints', parameters('privateEndpoints_priv_aisearch_accelerator_name'))]"
+      ],
+      "properties": {
+        "privateEndpoint": {
+          "id": "[resourceId('Microsoft.Network/privateEndpoints', parameters('privateEndpoints_priv_aisearch_accelerator_name'))]"
+        },
+        "privateLinkServiceConnectionState": {
+          "status": "Approved",
+          "description": "Auto-approved",
+          "actionsRequired": "None"
+        },
+        "provisioningState": "Succeeded",
+        "groupId": "searchService"
+      }
+    },
+    {
+      "type": "Microsoft.Storage/storageAccounts/blobServices/containers",
+      "apiVersion": "2024-01-01",
+      "name": "[concat(parameters('storageAccounts_functionsaiaccelerator_name'), '/default/azure-webjobs-hosts')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Storage/storageAccounts/blobServices', parameters('storageAccounts_functionsaiaccelerator_name'), 'default')]",
+        "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_functionsaiaccelerator_name'))]"
+      ],
+      "properties": {
+        "immutableStorageWithVersioning": {
+          "enabled": false
+        },
+        "defaultEncryptionScope": "$account-encryption-key",
+        "denyEncryptionScopeOverride": false,
+        "publicAccess": "None"
+      }
+    },
+    {
+      "type": "Microsoft.Storage/storageAccounts/blobServices/containers",
+      "apiVersion": "2024-01-01",
+      "name": "[concat(parameters('storageAccounts_functionsaiaccelerator_name'), '/default/azure-webjobs-secrets')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Storage/storageAccounts/blobServices', parameters('storageAccounts_functionsaiaccelerator_name'), 'default')]",
+        "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_functionsaiaccelerator_name'))]"
+      ],
+      "properties": {
+        "immutableStorageWithVersioning": {
+          "enabled": false
+        },
+        "defaultEncryptionScope": "$account-encryption-key",
+        "denyEncryptionScopeOverride": false,
+        "publicAccess": "None"
+      }
+    },
+    {
+      "type": "Microsoft.Storage/storageAccounts/blobServices/containers",
+      "apiVersion": "2024-01-01",
+      "name": "[concat(parameters('storageAccounts_ragstorageaiaccelerator_name'), '/default/ragcontainers')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Storage/storageAccounts/blobServices', parameters('storageAccounts_ragstorageaiaccelerator_name'), 'default')]",
+        "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_ragstorageaiaccelerator_name'))]"
+      ],
+      "properties": {
+        "immutableStorageWithVersioning": {
+          "enabled": false
+        },
+        "defaultEncryptionScope": "$account-encryption-key",
+        "denyEncryptionScopeOverride": false,
+        "publicAccess": "None"
+      }
+    },
+    {
+      "type": "Microsoft.Storage/storageAccounts/fileServices/shares",
+      "apiVersion": "2024-01-01",
+      "name": "[concat(parameters('storageAccounts_functionsaiaccelerator_name'), '/default/functions-ai-acceleratorba78')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Storage/storageAccounts/fileServices', parameters('storageAccounts_functionsaiaccelerator_name'), 'default')]",
+        "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_functionsaiaccelerator_name'))]"
+      ],
+      "properties": {
+        "accessTier": "TransactionOptimized",
+        "shareQuota": 102400,
+        "enabledProtocols": "SMB"
+      }
+    },
+    {
+      "type": "Microsoft.Storage/storageAccounts/tableServices/tables",
+      "apiVersion": "2024-01-01",
+      "name": "[concat(parameters('storageAccounts_functionsaiaccelerator_name'), '/default/AzureFunctionsDiagnosticEvents202504')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Storage/storageAccounts/tableServices', parameters('storageAccounts_functionsaiaccelerator_name'), 'default')]",
+        "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_functionsaiaccelerator_name'))]"
+      ],
+      "properties": {}
+    },
+    {
+      "type": "Microsoft.Web/sites",
+      "apiVersion": "2024-04-01",
+      "name": "[parameters('sites_functions_ai_accelerator_name')]",
+      "location": "West Europe",
+      "dependsOn": [
+        "[resourceId('Microsoft.Web/serverfarms', parameters('serverfarms_ASP_aiaccelerator_82c2_name'))]",
+        "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetworks_vnet_ai_accelerator_name'), 'snet2-functions-ai-accelerator')]"
+      ],
+      "kind": "functionapp,linux",
+      "identity": {
+        "type": "SystemAssigned"
+      },
+      "properties": {
+        "enabled": true,
+        "hostNameSslStates": [
+          {
+            "name": "[concat(parameters('sites_functions_ai_accelerator_name'), '.azurewebsites.net')]",
+            "sslState": "Disabled",
+            "hostType": "Standard"
+          },
+          {
+            "name": "[concat(parameters('sites_functions_ai_accelerator_name'), '.scm.azurewebsites.net')]",
+            "sslState": "Disabled",
+            "hostType": "Repository"
+          }
+        ],
+        "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', parameters('serverfarms_ASP_aiaccelerator_82c2_name'))]",
+        "reserved": true,
+        "isXenon": false,
+        "hyperV": false,
+        "dnsConfiguration": {},
+        "vnetRouteAllEnabled": true,
+        "vnetImagePullEnabled": false,
+        "vnetContentShareEnabled": false,
+        "siteConfig": {
+          "numberOfWorkers": 1,
+          "linuxFxVersion": "Node|20",
+          "acrUseManagedIdentityCreds": false,
+          "alwaysOn": false,
+          "http20Enabled": false,
+          "functionAppScaleLimit": 0,
+          "minimumElasticInstanceCount": 1
+        },
+        "scmSiteAlsoStopped": false,
+        "clientAffinityEnabled": false,
+        "clientCertEnabled": false,
+        "clientCertMode": "Required",
+        "hostNamesDisabled": false,
+        "ipMode": "IPv4",
+        "vnetBackupRestoreEnabled": false,
+        "customDomainVerificationId": "2162ABAC0D086AD46605AD37DE271C15A80971FD96CAEEAE32DCC827E914EFA6",
+        "containerSize": 1536,
+        "dailyMemoryTimeQuota": 0,
+        "httpsOnly": true,
+        "endToEndEncryptionEnabled": false,
+        "redundancyMode": "None",
+        "publicNetworkAccess": "Enabled",
+        "storageAccountRequired": false,
+        "virtualNetworkSubnetId": "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetworks_vnet_ai_accelerator_name'), concat('snet2-', parameters('sites_functions_ai_accelerator_name')))]",
+        "keyVaultReferenceIdentity": "SystemAssigned"
+      }
+    },
+    {
+      "type": "Microsoft.Web/sites/virtualNetworkConnections",
+      "apiVersion": "2024-04-01",
+      "name": "[concat(parameters('sites_functions_ai_accelerator_name'), '/6c5abfcb-e361-4e44-9bdb-4ebb5f3f63d0_snet2-', parameters('sites_functions_ai_accelerator_name'))]",
+      "location": "West Europe",
+      "dependsOn": [
+        "[resourceId('Microsoft.Web/sites', parameters('sites_functions_ai_accelerator_name'))]",
+        "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetworks_vnet_ai_accelerator_name'), 'snet2-functions-ai-accelerator')]"
+      ],
+      "properties": {
+        "vnetResourceId": "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetworks_vnet_ai_accelerator_name'), 'snet2-functions-ai-accelerator')]",
+        "isSwift": true
+      }
+    },
+    {
+      "type": "Microsoft.Web/staticSites/linkedBackends",
+      "apiVersion": "2024-04-01",
+      "name": "[concat(parameters('staticSites_swa_ai_accelerator_name'), '/backend1')]",
+      "location": "West Europe",
+      "dependsOn": [
+        "[resourceId('Microsoft.Web/staticSites', parameters('staticSites_swa_ai_accelerator_name'))]",
+        "[resourceId('Microsoft.Web/sites', parameters('sites_functions_ai_accelerator_name'))]"
+      ],
+      "properties": {
+        "backendResourceId": "[resourceId('Microsoft.Web/sites', parameters('sites_functions_ai_accelerator_name'))]",
+        "region": "westeurope"
+      }
+    }
+  ]
+}
