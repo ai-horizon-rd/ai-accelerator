@@ -25,8 +25,6 @@ Before deploying the project, ensure you have the following:
 
 ## Deployment Instructions
 
-Follow these steps to deploy the project:
-
 ### 1. Clone the Repository
 
 ```bash
@@ -80,86 +78,101 @@ az staticwebapp upload \
 
 Replace `<STATIC_WEB_APP_NAME>` and `<RESOURCE_GROUP_NAME>` with appropriate values.
 
-### 5. Configure Environment Variables
+### 5. Configure Azure AI Search
+
+To enable Azure AI Search, set up the following components:
+
+1. **Blob Storage**: Use the deployed blob storage as the data source and upload your documents.
+2. **Index**: Define the schema for the searchable data.
+3. **Skillset**: Enhance the data during indexing using AI-powered capabilities.
+4. **Indexer**: Automate the data ingestion process into the index.
+
+Sample JSON configuration files for these components are available in the `rag_templates` folder. Use the Azure Portal to create and configure these resources. Once configured (and after data is uploaded), run the indexer to populate the index with your data. Please be aware that these templates should be adapted depending on your content.
+
+### 6. Configure Environment Variables
 
 Set the required environment variables in the Azure portal for both the Function App and Static Web App:
 
 - `AZURE_OPENAI_ENDPOINT`
+- `AZURE_OPENAI_API_VERSION`
 - `AI_SEARCH_API_KEY`
+- `AI_SEARCH_ENDPOINT`
+- `AI_SEARCH_INDEX`
 
-### 6. Test the Application
+### 7. Test the Application
 
 Access the deployed Static Web App URL (provided by Azure) and test the AI Accelerator functionality.
 
-### 7. Automate Deployment with DevOps
-
-To stay flexible, automation with respect to deployment is currently not included in this template.
+### 8. Automate Deployment with DevOps
 
 To streamline the deployment process, consider implementing DevOps automation using tools like **GitHub Actions** or **Azure DevOps Pipelines**. Below is an example of how you can automate the deployment:
 
-1. **Set Up a CI/CD Pipeline**:
+#### Set Up a CI/CD Pipeline
 
-   - Use a pipeline to automate the build and deployment of the backend, frontend, and Azure resources.
+- Use a pipeline to automate the build and deployment of the backend, frontend, and Azure resources.
 
-2. **Example GitHub Actions Workflow**:
-   Create a `.github/workflows/deploy.yml` file with the following content:
+#### Example GitHub Actions Workflow
 
-   ```yaml
-   name: Deploy AI Accelerator
+Create a `.github/workflows/deploy.yml` file with the following content:
 
-   on:
-     push:
-        branches:
-           - main
+```yaml
+name: Deploy AI Accelerator
 
-   jobs:
-     deploy:
-        runs-on: ubuntu-latest
+on:
+  push:
+    branches:
+      - main
 
-        steps:
-        - name: Checkout Code
-           uses: actions/checkout@v3
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
 
-        - name: Set up Node.js
-           uses: actions/setup-node@v3
-           with:
-             node-version: '16'
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
 
-        - name: Install Azure CLI
-           uses: azure/CLI@v1
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "16"
 
-        - name: Login to Azure
-           uses: azure/login@v1
-           with:
-             creds: ${{ secrets.AZURE_CREDENTIALS }}
+      - name: Install Azure CLI
+        uses: azure/CLI@v1
 
-        - name: Deploy Azure Resources
-           run: |
-             cd resource_template
-             az deployment group create --resource-group ${{ secrets.RESOURCE_GROUP_NAME }} --template-file template.json
+      - name: Login to Azure
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-        - name: Deploy Backend
-           run: |
-             cd ../backend
-             func azure functionapp publish ${{ secrets.FUNCTION_APP_NAME }}
+      - name: Deploy Azure Resources
+        run: |
+          cd resource_template
+          az deployment group create --resource-group ${{ secrets.RESOURCE_GROUP_NAME }} --template-file template.json
 
-        - name: Deploy Frontend
-           run: |
-             cd ../frontend
-             npm install
-             npm run build
-             az staticwebapp upload \
-                   --name ${{ secrets.STATIC_WEB_APP_NAME }} \
-                   --resource-group ${{ secrets.RESOURCE_GROUP_NAME }} \
-                   --source ./dist
-   ```
+      - name: Deploy Backend
+        run: |
+          cd ../backend
+          func azure functionapp publish ${{ secrets.FUNCTION_APP_NAME }}
 
-3. **Store Secrets**:
-   - Add the following secrets to your repository:
-     - `AZURE_CREDENTIALS`: Azure service principal credentials in JSON format.
-     - `RESOURCE_GROUP_NAME`: Name of the Azure resource group.
-     - `FUNCTION_APP_NAME`: Name of the Azure Function App.
-     - `STATIC_WEB_APP_NAME`: Name of the Azure Static Web App.
+      - name: Deploy Frontend
+        run: |
+          cd ../frontend
+          npm install
+          npm run build
+          az staticwebapp upload \
+            --name ${{ secrets.STATIC_WEB_APP_NAME }} \
+            --resource-group ${{ secrets.RESOURCE_GROUP_NAME }} \
+            --source ./dist
+```
+
+#### Store Secrets
+
+Add the following secrets to your repository:
+
+- `AZURE_CREDENTIALS`: Azure service principal credentials in JSON format.
+- `RESOURCE_GROUP_NAME`: Name of the Azure resource group.
+- `FUNCTION_APP_NAME`: Name of the Azure Function App.
+- `STATIC_WEB_APP_NAME`: Name of the Azure Static Web App.
 
 ## Features
 

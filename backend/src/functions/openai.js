@@ -10,11 +10,11 @@ const { SearchClient, AzureKeyCredential } = require("@azure/search-documents");
 dotenv.config();
 
 const endpoint = process.env["AZURE_OPENAI_ENDPOINT"];
-const apiVersion = "2024-12-01-preview";
+const apiVersion = process.env["AZURE_OPENAI_API_VERSION"];
 
-const searchEndpoint = "https://aisearchaiaccellerator.search.windows.net";
+const searchEndpoint = process.env["AI_SEARCH_ENDPOINT"];
 const searchApiKey = process.env["AI_SEARCH_API_KEY"];
-const searchIndex = "ragindex";
+const searchIndex = process.env["AI_SEARCH_INDEX"];
 
 app.http("openai", {
   methods: ["POST"],
