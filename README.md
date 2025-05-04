@@ -1,6 +1,6 @@
 # Serverless AI Accelerator
 
-This **Serverless AI Accelerator**, developed by **aihorizon R&D** in collaboration with **Microsoft's Tech for Social Impact Team**, is specifically designed with affordability and cost efficiency in mind, catering particularly to organizations within the non-profit and education sectors. It provides a secure and scalable solution for integrating AI services into static web applications. The accelerator utilizes Azure Functions for backend processes, Azure Static Web Apps for frontend hosting, and employs an ARM template to automate the provisioning of essential Azure resources.
+This **Serverless AI Accelerator**, developed by **[aihorizon R&D](https://www.aihorizon.studio/)** in collaboration with **Microsoft's Tech for Social Impact Team**, is specifically designed with affordability and cost efficiency in mind, catering particularly to organizations within the non-profit and education sectors. It provides a secure and scalable solution for integrating AI services into static web applications. The accelerator utilizes Azure Functions for backend processes, Azure Static Web Apps for frontend hosting, and employs an ARM template to automate the provisioning of essential Azure resources.
 
 ## Architecture Diagram
 
