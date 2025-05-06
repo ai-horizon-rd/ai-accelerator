@@ -5,7 +5,6 @@ const {
 } = require("@azure/identity");
 const { AzureOpenAI } = require("openai");
 const dotenv = require("dotenv");
-const { SearchClient, AzureKeyCredential } = require("@azure/search-documents");
 
 dotenv.config();
 
@@ -34,23 +33,6 @@ app.http("openai", {
         .reverse();
       messageArray.push({ role: "user", content: requestMessage });
 
-      const searchClient = new SearchClient(
-        searchEndpoint,
-        searchIndex,
-        new AzureKeyCredential(searchApiKey)
-      );
-      const searchResults = await searchClient.search(requestMessage);
-      const searchResultArray = [];
-      for await (const result of searchResults.results) {
-        searchResultArray.push(result);
-      }
-      messageArray.push({
-        role: "system",
-        content:
-          `You are a helpful assistant. Azure AI Search left you the following content: ` +
-          JSON.stringify(searchResultArray),
-      });
-
       const completionObject = {
         messages: messageArray,
         max_tokens: 4096,
@@ -59,6 +41,20 @@ app.http("openai", {
         frequency_penalty: parseFloat(requestConfig?.frequency_penalty) || 0,
         presence_penalty: parseFloat(requestConfig?.presence_penalty) || 0,
         stop: null,
+        data_sources: [
+          {
+            type: "azure_search",
+            parameters: {
+              endpoint: searchEndpoint,
+              index_name: searchIndex,
+              authentication: {
+                type: "api_key",
+                key: searchApiKey,
+              },
+              strictness: 1,
+            },
+          },
+        ],
       };
 
       const credential = new DefaultAzureCredential();
