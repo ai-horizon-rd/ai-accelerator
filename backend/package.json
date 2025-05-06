@@ -12,8 +12,6 @@
     "@azure/cosmos": "^4.2.0",
     "@azure/functions": "^4.0.0",
     "@azure/identity": "^4.9.0",
-    "@azure/openai": "^2.0.0",
-    "@azure/search-documents": "^12.1.0",
     "axios": "^1.7.9",
     "dotenv": "^16.4.5",
     "openai": "^4.87.1",
