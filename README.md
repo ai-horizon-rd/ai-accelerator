@@ -124,7 +124,7 @@ To ensure the indexer functions correctly, update the `"dataSourceName"` field i
 
 ### 6. Configure Environment Variables
 
-Set the required environment variables in the Azure portal for both the Function App and Static Web App:
+Set the required environment variables in the Azure portal for the Function App:
 
 - `AZURE_OPENAI_ENDPOINT`
 - `AZURE_OPENAI_API_VERSION`
